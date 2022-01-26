@@ -63,31 +63,31 @@ int main(){
     }
     puzzleText.close();
     
-    //3. lakukan pencarian seluruh kata di dalam papan.
 
     auto timeStart = chrono::high_resolution_clock::now();
 
     for(int loop = 0 ; loop < wordCounter; loop++){
-        //4. untuk masing-masing kata yang dicari, lakukan iterasi kepada tiap huruf di papan.
+        //3. lakukan iterasi kepada tiap huruf di papan.
         for(int b = 0 ; b < baris ; b++){
             for(int k = 0; k < kolom; k++){
-                //5. jika huruf pertama sama pada word yang ingin dicari sama dengan huruf yang saat ini ditunjuk pada papan, 
+                //4. jika huruf pertama sama pada word yang ingin dicari sama dengan huruf yang saat ini ditunjuk pada papan, 
                 comparisonCounter++;
                 if(wordsToFind[loop][0] == board[b][k]){
                     // lakukan pencarian ke 8 arah (seluruh petak di sekitar huruf tersebut).
                     bool isFound = false;
-                    int arah = 1; //1 artinya kiri atas, 2 artinya atas. lebih mudah ilustrasi:
+                    int arah = 1; 
+                    // ilustrasi arah:
                     // 1 2 3
                     // 8 0 4
                     // 7 6 5
+                    //1 artinya kiri atas, 2 artinya atas, dan seterusnya. 
                     while(arah < 9 && !isFound){
                         char charInBoardToCompare;
                         bool sama = true;
                         int panjang = wordsToFind[loop].length();
                         int hurufKe = 1; //mulai dari 0. huruf ke 0 sudah di cek. selanjutnya huruf ke 1
 
-                        //6. untuk masing-masing arah, selama seluruh huruf yang sudah dicek masih sama dan huruf yang dicek masih kurang dari panjang kata,
-                        //  cek huruf berikutnya.
+                        //5. cocokkan huruf yang saat ini ditunjuk di papan dengan huruf selanjutnya pada word. selama seluruh huruf yang sudah dicek masih sama dan huruf yang dicek masih kurang dari panjang kata,cek huruf berikutnya.
                         int bToCheck;
                         int kToCheck;
                         while(sama && hurufKe < panjang){
@@ -106,26 +106,26 @@ int main(){
                             }
                             hurufKe++;
                         }
-                        //7. jika panjang huruf sudah melebihi panjang kata dan masih sama, artinya setiap huruf pada kata tersebut sama, artinya, word telah ditemukan di dalam papan.
+                        //6. jika panjang huruf sudah melebihi panjang kata dan masih sama, artinya setiap huruf pada kata tersebut sama, artinya, word telah ditemukan di dalam papan.
                         if(sama){
                             isFound = true;
                             foundCounter++;
                             // tandai boardFoundTracker
                             for(int karakterKe = 0; karakterKe < panjang ; karakterKe++){
-                                //8. catat lokasi ditemukannya kata tersebut.
-                                //kalau ada kata yang digunakan bersama, prioritasin word yang lebih dulu dicari
+                                // catat lokasi ditemukannya kata tersebut.
+                                // kalau ada kata yang digunakan bersama, prioritasin word yang lebih dulu dicari
                                 if(boardFoundTracker[BToCheck(b,arah,karakterKe)][KToCheck(k,arah,karakterKe)] == 0){
                                     boardFoundTracker[BToCheck(b,arah,karakterKe)][KToCheck(k,arah,karakterKe)] = loop;
                                 }
                             }
                         }
                         arah++;
-                    }  
+                    }  // 7. selama word belum ditemukan pada papan, lakukan langkah 5 6 untuk arah selanjutnya.
                 }
             }
         }
 
-    } // selesai mengecek seluruh kata dalam papan
+    } // 8. lakukan langkah 3 4 5 6 7 untuk masing-masing kata yang dicari.
     //9. cetak papan secara lengkap. jika huruf pada papan merupakan salah satu bagian huruf dari kata yang dicari, print huruf dengan warna. 
     cout << "=== HASIL ===" << endl;
     for(int b = 0 ; b < baris ; b++){
